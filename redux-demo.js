@@ -8,10 +8,21 @@ const redux = require('redux');
 // Et dois retourner le nouveau state et surtout un objet
 // toujours avec le vieux state et l'action en + mais ne dois jamais avoir un http request dessus ou un truc avec le localstorage, il dois toujours
 // accepter un vieux state, et le modifier au passage
-const counterReducer = (state, action) => {
-    return {
-        counter: state.counter + 1
+// mettre un state part default car il a pas un state en premier 
+const counterReducer = (state = { counter: 0 }, action) => {
+
+    if (action.type === 'increment'){
+        return {
+            counter: state.counter + 1
+        }
     }
+
+    if (action.type === 'decrement') {
+        return {
+            counter: state.counter - 1
+        }
+    }
+    return state;
 };
 
 
@@ -31,3 +42,8 @@ store.subscribe(counterSubscriber);
 
 // le store a besoin de savoir quelle reducer on a besoin
 const store = redux.createStore(counterReducer);
+
+
+
+store.dispatch({ type: 'increment' })
+store.dispatch({ type: 'decrement' })
